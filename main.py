@@ -15,17 +15,18 @@ while(True):
         cv2.circle(frame,(j,i),15,(0,0,255),2)
         punkty.append((j,i))
 
-    cv2.imshow("RBG", frame)
+
     #wrzucNaSiec() -> wchodza punkty wychodziliterka
     #pisanie w ramce np w rogu jaka litera
 
     cv2.putText(img=frame,text="OpenCV",
-                org=(200,200),
-                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                fontScale=2,
-                color=(0,0,0),
-                thickness=,
+                org=(10,100),
+                fontFace=cv2.FONT_ITALIC,
+                fontScale=0.8,
+                color=(0,255,0),
+                thickness=2,
                 bottomLeftOrigin=False)
+    cv2.imshow("RBG", frame)
     if cv2.waitKey(1) & 0xFF == ord('z'):
         break
 cap.release()
