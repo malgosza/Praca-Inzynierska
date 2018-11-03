@@ -26,6 +26,10 @@ while(True):
                 color=(0,255,0),
                 thickness=2,
                 bottomLeftOrigin=False)
+    for i in range(len(punkty)-1):
+        p = punkty[i]
+        nastepny = punkty[i+1]
+        cv2.line(frame,p,nastepny,(255,0,0),2,8)
     cv2.imshow("RBG", frame)
     if cv2.waitKey(1) & 0xFF == ord('z'):
         break
