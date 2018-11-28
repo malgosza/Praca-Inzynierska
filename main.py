@@ -16,7 +16,7 @@ while(True):
         punkty.append((j,i))
 
 
-    #wrzucNaSiec() -> wchodza punkty wychodziliterka
+    #wrzucNaSiec() -> wchodza punkty wychodziliterkaD
     #pisanie w ramce np w rogu jaka litera
 
     cv2.putText(img=frame,text="OpenCV",

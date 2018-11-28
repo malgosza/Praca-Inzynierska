@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-
+import scipy.misc
 
 punkty=[
 (153,161),
@@ -67,13 +67,17 @@ for i in range(len(punkty)-1):
     img=cv2.line(img, start, stop, (65,65,65), 20, 8)
 
 newImage = cv2.resize(img, (28, 28))
+obrazekDoSieci=newImage.ravel()
+np.savetxt("test.csv",obrazekDoSieci,'%s', ',')
+print(obrazekDoSieci.shape)
+
 
 # cv2.imshow("Test",newImage)
 # cv2.waitKey(0)
 
-cv2.imwrite("jedynka.png",newImage,  [cv2.IMWRITE_PNG_COMPRESSION, 9])
-
-print("stop")
+# cv2.imwrite("jedynka.png",newImage,  [cv2.IMWRITE_PNG_COMPRESSION, 9])
+#
+# print("stop")
 
 #---------DZIALA--------
 # import cv2
