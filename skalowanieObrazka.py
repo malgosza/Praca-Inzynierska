@@ -59,16 +59,18 @@ punkty=[
 ]
 
 # punkty = [(136,230),(272,230),(187,529)]
-img = np.zeros((480,640,3))
-img[:] = 255
+img = np.zeros((480,640,1))
+
 for i in range(len(punkty)-1):
     start = punkty[i]
     stop = punkty[i + 1]
-    img=cv2.line(img, start, stop, (65,65,65), 20, 8)
+    cv2.line(img, start, stop, (255,255,255), 20, 8)
 
 newImage = cv2.resize(img, (28, 28))
-obrazekDoSieci=newImage.ravel()
-np.savetxt("test.csv",obrazekDoSieci,'%s', ',')
+
+obrazekDoSieci=np.array([np.ravel(newImage)])
+np.savetxt("test.csv",obrazekDoSieci, fmt='%i', delimiter=',')
+print(obrazekDoSieci)
 print(obrazekDoSieci.shape)
 
 
