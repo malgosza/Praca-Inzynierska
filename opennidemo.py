@@ -8,28 +8,34 @@ print(dev.get_device_info())
 
 depth_stream = dev.create_depth_stream()
 depth_stream.start()
-colorStream = dev.create_color_stream()
-colorStream.start()
+# colorStream = dev.create_color_stream()
+# colorStream.start()
+punkty=[]
 
-def getFrame(readFrame, isColor):
+def getFrame(readFrame):
     frame_data = readFrame.get_buffer_as_uint16()
     img = np.frombuffer(frame_data, dtype=np.uint16)
-    img.shape = (1, 480, 640)
-
-    img = np.concatenate((img, img, img), axis=0)
-    img = np.swapaxes(img, 0, 2)
-    img = np.swapaxes(img, 0, 1)
+    img.shape = (480, 640)
     return img
 
-while True:
-    img = getFrame(depth_stream.read_frame(), False)
-    # rgbFrame = getFrame(colorStream.read_frame(), True)
+while(True):
+    img = getFrame(depth_stream.read_frame())
+    # rgbFrame = getFrame(colorStream.read_frame())
+    img = np.ma.masked_equal(img, 0.0, copy=True)
+    indeksNajbllizejKamey=img.argmin()
+    wartoscNajblizszaKamery=img.min()
+    # if wartoscNajblizszaKamery<1000 and wartoscNajblizszaKamery>10:
+    if True:
+        j,i = np.unravel_index(indeksNajbllizejKamey, img.shape)
 
-    cv2.imshow("image", img)
-    # cv2.imshow("rgb", rgbFrame)
+        # print(str(j) +" " + str(i) +"->" + str(wartoscNajblizszaKamery))
+        cv2.circle(img,(i,j),30,(0,0,0),5)
+        punkty.append((i,j))
+    cv2.imshow("Malorzata Niewiadomska Inzynieria Biomedyczna", img)
     if cv2.waitKey(1) & 0xFF == ord('z'):
         break
 
 depth_stream.stop()
-colorStream.stop()
+# colorStream.stop()
 openni2.unload()
+print(punkty)
