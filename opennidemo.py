@@ -24,11 +24,11 @@ while(True):
     img = np.ma.masked_equal(img, 0.0, copy=True)
     indeksNajbllizejKamey=img.argmin()
     wartoscNajblizszaKamery=img.min()
-    # if wartoscNajblizszaKamery<1000 and wartoscNajblizszaKamery>10:
-    if True:
+    if wartoscNajblizszaKamery<1700 and wartoscNajblizszaKamery>1200:
+    # if True:
         j,i = np.unravel_index(indeksNajbllizejKamey, img.shape)
 
-        # print(str(j) +" " + str(i) +"->" + str(wartoscNajblizszaKamery))
+        print(str(j) +" " + str(i) +"->" + str(wartoscNajblizszaKamery))
         cv2.circle(img,(i,j),30,(0,0,0),5)
         punkty.append((i,j))
     cv2.imshow("Malorzata Niewiadomska Inzynieria Biomedyczna", img)
