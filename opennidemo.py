@@ -1,6 +1,8 @@
 from openni import openni2
 import cv2
 import numpy as np
+from kaggle import zapuscSiec
+
 openni2.initialize()     # can also accept the path of the OpenNI redistribution
 
 dev = openni2.Device.open_any()
@@ -31,6 +33,10 @@ while(True):
         print(str(j) +" " + str(i) +"->" + str(wartoscNajblizszaKamery))
         cv2.circle(img,(i,j),30,(0,0,0),5)
         punkty.append((i,j))
+    elif(len(punkty)>0):
+        wynik = zapuscSiec(punkty)
+        print(wynik)
+        break
     cv2.imshow("Malorzata Niewiadomska Inzynieria Biomedyczna", img)
     if cv2.waitKey(1) & 0xFF == ord('z'):
         break
