@@ -1,7 +1,7 @@
 from openni import openni2
 import cv2
 import numpy as np
-from kaggle import zapuscSiec
+from convolutionalNeuralNetwork import loadArtificialNeuralNetwork
 
 openni2.initialize()     # can also accept the path of the OpenNI redistribution
 
@@ -10,8 +10,6 @@ print(dev.get_device_info())
 
 depth_stream = dev.create_depth_stream()
 depth_stream.start()
-# colorStream = dev.create_color_stream()
-# colorStream.start()
 punkty=[]
 
 def getFrame(readFrame):
@@ -22,26 +20,22 @@ def getFrame(readFrame):
 
 while(True):
     img = getFrame(depth_stream.read_frame())
-    # rgbFrame = getFrame(colorStream.read_frame())
     img = np.ma.masked_equal(img, 0.0, copy=True)
-    indeksNajbllizejKamey=img.argmin()
-    wartoscNajblizszaKamery=img.min()
-    if wartoscNajblizszaKamery<1700 and wartoscNajblizszaKamery>1200:
-    # if True:
-        j,i = np.unravel_index(indeksNajbllizejKamey, img.shape)
-
-        print(str(j) +" " + str(i) +"->" + str(wartoscNajblizszaKamery))
+    indexClosestToCamera=img.argmin()
+    pixelValueNearestToCamera=img.min()
+    if pixelValueNearestToCamera<1700 and pixelValueNearestToCamera>1200:
+        j,i = np.unravel_index(indexClosestToCamera, img.shape)
+        print(str(j) +" " + str(i) +"->" + str(pixelValueNearestToCamera))
         cv2.circle(img,(i,j),30,(0,0,0),5)
         punkty.append((i,j))
     elif(len(punkty)>0):
-        wynik = zapuscSiec(punkty)
-        print(wynik)
+        result = loadArtificialNeuralNetwork(punkty)
+        print(result)
         break
     cv2.imshow("Malorzata Niewiadomska Inzynieria Biomedyczna", img)
     if cv2.waitKey(1) & 0xFF == ord('z'):
         break
 
 depth_stream.stop()
-# colorStream.stop()
 openni2.unload()
 print(punkty)

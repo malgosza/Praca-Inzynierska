@@ -63,7 +63,7 @@ import os
 #     (323,437)
 #     ]
 
-def zapuscSiec(punkty):
+def loadArtificialNeuralNetwork(punkty):
     # punkty = [(136,230),(272,230),(187,529)]
     img = np.zeros((480,640,1))
 
@@ -76,12 +76,12 @@ def zapuscSiec(punkty):
 
     obrazekDoSieci=np.array([np.ravel(newImage)])
 
-    LEARNING_RATE = 1e-4#jak to zmniejsze i doloze iteracje to uzyskam moj wykres
+    LEARNING_RATE = 2.5e-6#jak to zmniejsze i doloze iteracje to uzyskam moj wykres
     # set to 20000 on local environment to get 0.99 accuracy
-    TRAINING_ITERATIONS = 10
+    TRAINING_ITERATIONS = 2000
 
-    DROPOUT = 0.5
-    BATCH_SIZE = 50#ile probek jest wrzucane do sieci na raz -HIPERARAMETRY
+    DROPOUT = 0.25
+    BATCH_SIZE = 16#ile probek jest wrzucane do sieci na raz -HIPERARAMETRY
 
     # set to 0 to train on all available data
     VALIDATION_SIZE =2000
