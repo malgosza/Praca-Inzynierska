@@ -17,4 +17,5 @@ label=Label(text="Bezdotykowy intrefejs do rozpoznawania znaków \nz wykorzystan
 
 buttonPOMOC=Button(root,text='POMOC',padx=10,pady=10,bg='yellow',fg='black',command=printName).place(x=300,y=300)
 
+root.resizable(0, 0)
 root.mainloop()
