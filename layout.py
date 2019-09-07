@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from opennidemo import fuDoZmiany
 
 root=Tk()
 root.geometry('680x450')
@@ -7,9 +8,12 @@ root.title("Małgorzata Niewiadomska Inżynieria Biomedyczna")
 
 def printName():
     print("Hello World!")
+    root.destroy()
+    fuDoZmiany()
 
 def printPOMOC():
-    messagebox.showinfo("POMOC", "POMOC")
+    messagebox.showinfo("INSTRUKCJA", "POMOC")
+    #po uruchomieniu nacisnij z aby zakonczyc
 
 
 buttonSTART = Button(root, text='ROZPOCZNIJ', padx=10, pady=10, command=printName)
