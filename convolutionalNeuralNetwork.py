@@ -67,12 +67,12 @@ def loadArtificialNeuralNetwork(punkty):
     # punkty = [(136,230),(272,230),(187,529)]
     img = np.zeros((480,640,1))
 
-    LEARNING_RATE = 2.5e-6#jak to zmniejsze i doloze iteracje to uzyskam moj wykres
+    LEARNING_RATE = 1e-4#jak to zmniejsze i doloze iteracje to uzyskam moj wykres
     # set to 20000 on local environment to get 0.99 accuracy
-    TRAINING_ITERATIONS = 2000
+    TRAINING_ITERATIONS = 2500
 
     DROPOUT = 0.25
-    BATCH_SIZE = 16#ile probek jest wrzucane do sieci na raz -HIPERARAMETRY
+    BATCH_SIZE = 25#ile probek jest wrzucane do sieci na raz -HIPERARAMETRY
 
     # set to 0 to train on all available data
     VALIDATION_SIZE =2000
@@ -132,15 +132,11 @@ def loadArtificialNeuralNetwork(punkty):
 
         return indeksy
 
-    indeksy = []
-    for i in range(10):
-        indeksy.append(znajdzIdenksy(labels, i, 100))
+    indeksy = [znajdzIdenksy(labels, i, 100) for i in range(10)]
 
     # zera sa w kolejnych podmacierach. jedynki w indeksy[1][...]
     # display(images[indeksy[0][1]])
-    print()
 
-    pass
     # weight initialization
     def weight_variable(shape):
         initial = tf.truncated_normal(shape, stddev=0.1)
@@ -341,11 +337,19 @@ def loadArtificialNeuralNetwork(punkty):
         plt.show()
 
     # convert from [0:255] => [0.0:1.0]
-    test_images = np.multiply(obrazekDoSieci, 1.0 / 255.0)
+    # test_images = np.multiply(obrazekDoSieci, 1.0 / 255.0)
 
-    # predict test set
-    predicted_lables = predict.eval(feed_dict={x: test_images, keep_prob: 1.0})
-    print("wynik:" + str(predicted_lables))
+    wyniki=[]
+    for liczba, indxy in enumerate(indeksy):
+        for idx in indxy:
+            obrazek = images[idx]
+            newImage = cv2.resize(obrazek, (28, 28))
+            obrazekDoSieci = np.array([np.ravel(newImage)])
+
+            predicted_lables = predict.eval(feed_dict={x: obrazekDoSieci, keep_prob: 1.0})
+            wyniki.append({'co ma byc':liczba, 'co wyszlo':str(predicted_lables), 'indeks':idx})
+
+    print(wyniki)
 
     # odkomentowac dla innych danych (z pliku test.csv)
     # using batches is more resource efficient
