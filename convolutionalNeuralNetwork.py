@@ -67,15 +67,6 @@ def loadArtificialNeuralNetwork(punkty):
     # punkty = [(136,230),(272,230),(187,529)]
     img = np.zeros((480,640,1))
 
-    for i in range(len(punkty)-1):
-        start = punkty[i]
-        stop = punkty[i + 1]
-        cv2.line(img, start, stop, (255,255,255), 20, 8)
-
-    newImage = cv2.resize(img, (28, 28))
-
-    obrazekDoSieci=np.array([np.ravel(newImage)])
-
     LEARNING_RATE = 2.5e-6#jak to zmniejsze i doloze iteracje to uzyskam moj wykres
     # set to 20000 on local environment to get 0.99 accuracy
     TRAINING_ITERATIONS = 2000
@@ -131,6 +122,25 @@ def loadArtificialNeuralNetwork(punkty):
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
 
+    def znajdzIdenksy(labels, jakaLiczba, ileMax=100):
+        indeksy = []
+        for i,v in enumerate(labels):
+            if v[jakaLiczba] == 1:
+                indeksy.append(i)
+            if len(indeksy) >= ileMax:
+                break
+
+        return indeksy
+
+    indeksy = []
+    for i in range(10):
+        indeksy.append(znajdzIdenksy(labels, i, 100))
+
+    # zera sa w kolejnych podmacierach. jedynki w indeksy[1][...]
+    # display(images[indeksy[0][1]])
+    print()
+
+    pass
     # weight initialization
     def weight_variable(shape):
         initial = tf.truncated_normal(shape, stddev=0.1)
@@ -360,3 +370,5 @@ def loadArtificialNeuralNetwork(punkty):
                fmt='%d')
 
     sess.close()
+
+loadArtificialNeuralNetwork([])
