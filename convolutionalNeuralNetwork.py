@@ -122,7 +122,7 @@ def loadArtificialNeuralNetwork(punkty):
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
 
-    def znajdzIdenksy(labels, jakaLiczba, ileMax=100):
+    def znajdzIdenksy(labels, jakaLiczba, ileMax=999999):
         indeksy = []
         for i,v in enumerate(labels):
             if v[jakaLiczba] == 1:
@@ -132,7 +132,7 @@ def loadArtificialNeuralNetwork(punkty):
 
         return indeksy
 
-    indeksy = [znajdzIdenksy(labels, i, 99999) for i in range(10)]
+    indeksy = [znajdzIdenksy(labels, i) for i in range(10)]
 
     # zera sa w kolejnych podmacierach. jedynki w indeksy[1][...]
     # display(images[indeksy[0][1]])
@@ -360,6 +360,18 @@ def loadArtificialNeuralNetwork(punkty):
         print("dla {} osiagnieto {}/{}, czyli {} procent".format(liczba, wynikDlaLiczby, len(indxy), str(wynikDlaLiczby/len(indxy))))
     print(wyniki)
 
+    def foo(wyniki, liczba):
+        wynikiDlaLiczby = [0 for _ in range(10)]
+        for w in wyniki:
+            if w['co ma byc'] == liczba:
+                x = w['co wyszlo'][1]
+
+                wynikiDlaLiczby[int(x)] +=1
+
+        return wynikiDlaLiczby
+
+    for i in range(10):
+        print("dla {} osiagnieto takie wyniki: {}".format(i, foo(wyniki, i)))
 
     # odkomentowac dla innych danych (z pliku test.csv)
     # using batches is more resource efficient
