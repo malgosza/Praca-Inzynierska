@@ -132,7 +132,7 @@ def loadArtificialNeuralNetwork(punkty):
 
         return indeksy
 
-    indeksy = [znajdzIdenksy(labels, i, 100) for i in range(10)]
+    indeksy = [znajdzIdenksy(labels, i, 99999) for i in range(10)]
 
     # zera sa w kolejnych podmacierach. jedynki w indeksy[1][...]
     # display(images[indeksy[0][1]])
@@ -321,7 +321,7 @@ def loadArtificialNeuralNetwork(punkty):
     else:
         saver.restore(sess, 'modele/myModel')
     # check final accuracy on validation set
-    if(VALIDATION_SIZE):
+    if(VALIDATION_SIZE and len(os.listdir('modele'))==0):
         validation_accuracy = accuracy.eval(feed_dict={x: validation_images,
                                                        y_: validation_labels,
                                                        keep_prob: 1.0})
@@ -339,17 +339,27 @@ def loadArtificialNeuralNetwork(punkty):
     # convert from [0:255] => [0.0:1.0]
     # test_images = np.multiply(obrazekDoSieci, 1.0 / 255.0)
 
+    test_images = pd.read_csv('test.csv').values
+    test_images=test_images.astype(np.float)
+    test_images = np.multiply(test_images, 1.0 / 255.0)
+    predicted_lables = predict.eval(feed_dict={x: test_images, keep_prob: 1.0})
+    print('wykryto ' + str(predicted_lables))
+
     wyniki=[]
     for liczba, indxy in enumerate(indeksy):
+        wynikDlaLiczby =0
         for idx in indxy:
             obrazek = images[idx]
-            newImage = cv2.resize(obrazek, (28, 28))
-            obrazekDoSieci = np.array([np.ravel(newImage)])
+            obrazek.shape = (1,784)
+            obrazek = obrazek.astype(np.float)
 
-            predicted_lables = predict.eval(feed_dict={x: obrazekDoSieci, keep_prob: 1.0})
+            predicted_lables = predict.eval(feed_dict={x: obrazek, keep_prob: 1.0})
             wyniki.append({'co ma byc':liczba, 'co wyszlo':str(predicted_lables), 'indeks':idx})
-
+            if '['+str(liczba)+']' == str(predicted_lables):
+                wynikDlaLiczby+=1
+        print("dla {} osiagnieto {}/{}, czyli {} procent".format(liczba, wynikDlaLiczby, len(indxy), str(wynikDlaLiczby/len(indxy))))
     print(wyniki)
+
 
     # odkomentowac dla innych danych (z pliku test.csv)
     # using batches is more resource efficient
