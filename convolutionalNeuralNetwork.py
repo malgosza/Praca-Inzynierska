@@ -6,6 +6,7 @@ import matplotlib.cm as cm
 import tensorflow as tf
 import cv2
 import os
+from wynik import displayresult
 
 # punkty=[
 #     (153,161),
@@ -122,7 +123,7 @@ def loadArtificialNeuralNetwork(punkty):
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
 
-    def znajdzIdenksy(labels, jakaLiczba, ileMax=999999):
+    def znajdzIdenksy(labels, jakaLiczba, ileMax=50):
         indeksy = []
         for i,v in enumerate(labels):
             if v[jakaLiczba] == 1:
@@ -327,8 +328,8 @@ def loadArtificialNeuralNetwork(punkty):
                                                        keep_prob: 1.0})
         print('validation_accuracy => %.4f'%validation_accuracy)
         # plt.figure()
-        plt.plot(x_range, train_accuracies,'-b', label='Training')
-        plt.plot(x_range, validation_accuracies,'-g', label='Validation')
+        plt.plot(x_range, train_accuracies,'-b', label='Validation')
+        plt.plot(x_range, validation_accuracies,'-g', label='Training')
         plt.legend(loc='lower right', frameon=False)
         # plt.ylim(bottom = 1.1, top = 0.7)
         plt.ylabel('accuracy')
@@ -349,16 +350,17 @@ def loadArtificialNeuralNetwork(punkty):
     for liczba, indxy in enumerate(indeksy):
         wynikDlaLiczby =0
         for idx in indxy:
-            obrazek = images[idx]
-            obrazek.shape = (1,784)
-            obrazek = obrazek.astype(np.float)
 
-            predicted_lables = predict.eval(feed_dict={x: obrazek, keep_prob: 1.0})
+            image = images[idx]
+            image.shape = (1,784)
+            image = image.astype(np.float)
+
+            predicted_lables = predict.eval(feed_dict={x: image, keep_prob: 1.0})
             wyniki.append({'co ma byc':liczba, 'co wyszlo':str(predicted_lables), 'indeks':idx})
             if '['+str(liczba)+']' == str(predicted_lables):
                 wynikDlaLiczby+=1
         print("dla {} osiagnieto {}/{}, czyli {} procent".format(liczba, wynikDlaLiczby, len(indxy), str(wynikDlaLiczby/len(indxy))))
-    print(wyniki)
+        print(wyniki)
 
     def foo(wyniki, liczba):
         wynikiDlaLiczby = [0 for _ in range(10)]
@@ -396,5 +398,7 @@ def loadArtificialNeuralNetwork(punkty):
                fmt='%d')
 
     sess.close()
+
+    # displayresult(str(predicted_lables[0]))
 
 loadArtificialNeuralNetwork([])

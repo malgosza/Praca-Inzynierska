@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from convolutionalNeuralNetwork import loadArtificialNeuralNetwork
 
-def fuDoZmiany():
+def startApp():
     openni2.initialize()     # can also accept the path of the OpenNI redistribution
 
     dev = openni2.Device.open_any()
@@ -28,11 +28,11 @@ def fuDoZmiany():
             j,i = np.unravel_index(indexClosestToCamera, img.shape)
             print(str(j) +" " + str(i) +"->" + str(pixelValueNearestToCamera))
             cv2.circle(img,(i,j),30,(0,0,0),5)
-            punkty.append((i,j))
-        elif(len(punkty)>0):
-            result = loadArtificialNeuralNetwork(punkty)
-            print(result)
-            break
+            # punkty.append((i,j))
+        #elif(len(punkty)>0):
+        #    result = "45"
+        #    print(result)
+        #    break
         cv2.imshow("Malgorzata Niewiadomska Inzynieria Biomedyczna", img)
         if cv2.waitKey(1) & 0xFF == ord('z'):
             break
