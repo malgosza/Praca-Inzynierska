@@ -1,4 +1,5 @@
 #Libraries and settings
+import cv2
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,6 +11,15 @@ from resultLayout import displayResult
 # Based on https://www.kaggle.com/kakauandme/tensorflow-deep-nn
 def loadArtificialNeuralNetwork(punkty):
     img = np.zeros((480,640,1))
+
+    for i in range(len(punkty) - 1):
+        start = punkty[i]
+        stop = punkty[i + 1]
+        cv2.line(img, start, stop, (255, 255, 255), 20, 8)
+
+    newImage = cv2.resize(img, (28, 28))
+
+    obrazekDoSieci = np.array([np.ravel(newImage)])
 
     LEARNING_RATE = 1e-4
 
@@ -208,9 +218,11 @@ def loadArtificialNeuralNetwork(punkty):
         plt.grid()
         plt.show()
 
-    test_images = pd.read_csv('test.csv').values
+    test_images = np.multiply(obrazekDoSieci, 1.0 / 255.0)
+
+    # test_images = pd.read_csv('test.csv').values
     test_images=test_images.astype(np.float)
-    test_images = np.multiply(test_images, 1.0 / 255.0)
+    # test_images = np.multiply(test_images, 1.0 / 255.0)
     predicted_lables = predict.eval(feed_dict={x: test_images, keep_prob: 1.0})
 
     np.savetxt('submission_softmax.csv',
