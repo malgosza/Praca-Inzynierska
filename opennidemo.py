@@ -29,7 +29,7 @@ def startApp():
             print(str(j) +" " + str(i) +"->" + str(pixelValueNearestToCamera))
             cv2.circle(img,(i,j),30,(0,0,0),5)
             punkty.append((i,j))
-        elif(len(punkty)>0):
+        elif(len(punkty)>10):
             result = loadArtificialNeuralNetwork(punkty)
             print(result)
             break
@@ -40,3 +40,4 @@ def startApp():
     depth_stream.stop()
     openni2.unload()
     print(punkty)
+
