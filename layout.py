@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from opennidemo import fuDoZmiany
+from opennidemo import startApp
 
 root=Tk()
 root.geometry('680x450')
@@ -9,10 +9,13 @@ root.title("Małgorzata Niewiadomska Inżynieria Biomedyczna")
 def printName():
     print("Hello World!")
     root.destroy()
-    fuDoZmiany()
+    startApp()
 
 def printPOMOC():
-    messagebox.showinfo("INSTRUKCJA", "POMOC")
+    messagebox.showinfo("INSTRUKCJA OBSŁUGI PROGRAMU", "1. Sprawdź czy kamera jest włączona.\n"
+                                      "2. Stań w odległośći około 2 m od kamery.\n"
+                                      "3. Nakreśl znak.\n"
+                                      "4. Poczekaj na wynik.")
     #po uruchomieniu nacisnij z aby zakonczyc
 
 

@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from convolutionalNeuralNetwork import loadArtificialNeuralNetwork
 
-def fuDoZmiany():
+def startApp():
     openni2.initialize()     # can also accept the path of the OpenNI redistribution
 
     dev = openni2.Device.open_any()
