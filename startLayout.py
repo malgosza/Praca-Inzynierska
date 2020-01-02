@@ -6,8 +6,7 @@ root=Tk()
 root.geometry('680x450')
 root.title("Małgorzata Niewiadomska Inżynieria Biomedyczna")
 
-def printName():
-    print("Hello World!")
+def startApplication():
     root.destroy()
     startApp()
 
@@ -16,10 +15,8 @@ def printPOMOC():
                                       "2. Stań w odległośći około 2 m od kamery.\n"
                                       "3. Nakreśl znak.\n"
                                       "4. Poczekaj na wynik.")
-    #po uruchomieniu nacisnij z aby zakonczyc
 
-
-buttonSTART = Button(root, text='ROZPOCZNIJ', padx=10, pady=10, command=printName)
+buttonSTART = Button(root, text='ROZPOCZNIJ', padx=10, pady=10, command=startApplication)
 buttonSTART.pack(padx=180, pady=200)
 buttonSTART.config(bg='gray', fg='white')
 buttonSTART.config(font=('helvetica', 25))

@@ -1,6 +1,6 @@
 from tkinter import *
 
-def displayresult(result):
+def displayResult(result):
     root=Tk()
     root.geometry('680x450')
     root.title("Malgorzata Niewiadomska Inzynieria Biomedyczna")
