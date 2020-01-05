@@ -23,16 +23,33 @@ def startApp():
         img = getFrame(depth_stream.read_frame())
         img = np.ma.masked_equal(img, 0.0, copy=True) #moze nie bedzie potrzebny
         indexClosestToCamera=img.argmin()
-        pixelValueNearestToCamera=img.min()
-        if pixelValueNearestToCamera<1700 and pixelValueNearestToCamera>1200:
-            j,i = np.unravel_index(indexClosestToCamera, img.shape)
+
+
+        j, i = np.unravel_index(indexClosestToCamera, img.shape)
+        point = (i,j)
+        dlX = 350
+        dlY = 300
+        xStart = 120
+        yStart=120
+
+        czyWGranicachPionowych = lambda p: xStart <= p[0] < (xStart + dlX)
+        czyWGranicachPoziomych = lambda p: yStart <= p[1] < (yStart + dlY)
+
+        if czyWGranicachPionowych(point) and czyWGranicachPoziomych(point):
+            pixelValueNearestToCamera = img.min()
             print(str(j) +" " + str(i) +"->" + str(pixelValueNearestToCamera))
+            # if 1700 > pixelValueNearestToCamera > 1200:
             cv2.circle(img,(i,j),30,(0,0,0),5)
             punkty.append((i,j))
-        elif(len(punkty)>10):
-            result = loadArtificialNeuralNetwork(punkty)
-            print(result)
-            break
+            if pixelValueNearestToCamera>1400 and len(punkty)>30:
+                result = loadArtificialNeuralNetwork(punkty)
+                print(result)
+                break
+        # cv2.line(img,(xStart, yStart), (xStart+dlX, yStart), (0,0,0), 5)
+        # cv2.line(img,(xStart+dlX, yStart), (xStart+dlX, yStart+dlY), (0,0,0), 5)
+        # cv2.line(img,(xStart+dlX, yStart+dlY), (xStart, yStart+dlY), (0,0,0), 5)
+        # cv2.line(img,(xStart, yStart+dlY), (xStart, yStart), (0,0,0), 5)
+
         cv2.imshow("Malgorzata Niewiadomska Inzynieria Biomedyczna", img)
         if cv2.waitKey(1) & 0xFF == ord('z'):
             break
@@ -40,4 +57,3 @@ def startApp():
     depth_stream.stop()
     openni2.unload()
     print(punkty)
-

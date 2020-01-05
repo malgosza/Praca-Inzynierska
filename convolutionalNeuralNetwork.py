@@ -220,6 +220,7 @@ def loadArtificialNeuralNetwork(punkty):
 
     test_images = np.multiply(obrazekDoSieci, 1.0 / 255.0)
     test_images=test_images.astype(np.float)
+    # display(test_images)
     predicted_lables = predict.eval(feed_dict={x: test_images, keep_prob: 1.0})
 
     np.savetxt('submission_softmax.csv',
